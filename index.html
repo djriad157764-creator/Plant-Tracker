@@ -1,0 +1,296 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;700;800&display=swap");
+      body {
+        font-family: "Plus Jakarta Sans", sans-serif;
+      }
+
+      
+.card {
+  transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.card:hover {
+  transform: translateY(-10px) scale(1.01);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+
+.thrive-active { border-color: rgba(16, 185, 129, 0.5) !important; box-shadow: 0 0 40px rgba(16, 185, 129, 0.15); }
+.struggle-active { border-color: rgba(244, 63, 94, 0.5) !important; box-shadow: 0 0 40px rgba(244, 63, 94, 0.15); }
+    </style>
+  </head>
+  <body class="bg-[#030712] min-h-screen p-10 text-white overflow-x-hidden">
+    <div
+      class="fixed -z-10 top-0 left-0 w-[500px] h-[500px] bg-blue-600/10 blur-[120px] rounded-full"
+    ></div>
+    <div
+      class="fixed -z-10 bottom-0 right-0 w-[500px] h-[500px] bg-emerald-600/10 blur-[120px] rounded-full"
+    ></div>
+
+    <header class="w-[80%] mx-auto mb-6">
+      <h1 class="text-6xl font-bold text-green-500 text-center mb-7">
+        Plant Tracker
+      </h1>
+      <div class="grid grid-cols-3 gap-8 text-center">
+        <div
+          class="backdrop-blur-xl bg-white/5 border border-white/10 p-6 rounded-[2rem] hover:bg-white/10 transition-all group"
+        >
+          <p class="text-white/40 text-sm font-bold uppercase tracking-widest">
+            Total
+          </p>
+          <p
+            id="total"
+            class="text-4xl font-black mt-2 text-white group-hover:scale-110 transition-transform"
+          >
+            0
+          </p>
+        </div>
+
+        <div class="backdrop-blur-xl bg-white/5 border border-white/10 p-6 rounded-[2rem] hover:bg-white/10 transition-all group">
+          <p class="text-white/40 text-sm font-bold uppercase tracking-widest" >Thrive</p>
+          <p id="thrivingCount" class="text-4xl font-black mt-2 text-white group-hover:scale-110 transition-transform">0</p>
+        </div>
+
+        <div class="backdrop-blur-xl bg-white/5 border border-white/10 p-6 rounded-[2rem] hover:bg-white/10 transition-all group">
+          <p class="text-white/40 text-sm font-bold uppercase tracking-widest">Struggling</p>
+          <p id="strugglingCount" class="text-4xl font-black mt-2 text-white group-hover:scale-110 transition-transform">0</p>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <!-- <div class="mb-6 space-x-2">
+        <button
+          onclick="toggleStyle('all-filter-btn')"
+          class="bg-black rounded-[10px] text-white px-5 py-2"
+          id="all-filter-btn"
+        >
+          All
+        </button>
+        <button
+          onclick="toggleStyle('thriving-filter-btn')"
+          class="bg-gray-300 rounded-[10px] px-5 py-2"
+          id="thriving-filter-btn"
+        >
+          Thriving
+        </button>
+        <button
+          onclick="toggleStyle('struggling-filter-btn')"
+          class="bg-gray-300 rounded-[10px] px-5 py-2"
+          id="struggling-filter-btn"
+        >
+          Struggling
+        </button>
+      </div> -->
+<div class="mb-10 flex flex-wrap gap-4 justify-center md:justify-start">
+  <button onclick="toggleStyle('all-filter-btn')" id="all-filter-btn" 
+    class="px-8 py-3 rounded-2xl backdrop-blur-lg bg-blue-600/40 text-white border border-blue-400/50 shadow-lg transition-all font-bold">
+    All Plants
+  </button>
+  <button onclick="toggleStyle('thriving-filter-btn')" id="thriving-filter-btn" 
+    class="px-8 py-3 rounded-2xl backdrop-blur-lg bg-white/5 text-white/40 border border-white/10 hover:bg-white/10 transition-all font-bold">
+    Thriving
+  </button>
+  <button onclick="toggleStyle('struggling-filter-btn')" id="struggling-filter-btn" 
+    class="px-8 py-3 rounded-2xl backdrop-blur-lg bg-white/5 text-white/40 border border-white/10 hover:bg-white/10 transition-all font-bold">
+    Struggling
+  </button>
+</div>
+      <section id="allCards" class="space-y-6">
+        <!-- card 1 -->
+        <div
+          class="card  relative backdrop-blur-md bg-white/5 border border-white/10 p-8 rounded-[2.5rem] transition-all duration-500 hover:bg-white/10 hover:border-white/20 shadow-2xl"
+        >
+          <div class="flex flex-col md:flex-row justify-between items-start relative z-10 gap-6">
+            <div class="flex-1 space-y-6">
+              <div class="flex items-center gap-4">
+                <p
+                  class="plantName text-4xl font-black tracking-tight bg-gradient-to-r from-white to-white/40 bg-clip-text text-transparent truncate max-w-[300px]"
+                >
+                  Plant Name One
+                </p>
+                <span
+                  class="status px-3 py-1 rounded-full bg-white/5 border border-white/10 text-[10px] font-bold uppercase tracking-[2px] text-white/40"
+                >
+                  Not applicable
+                </span>
+              </div>
+
+              <p class="latinName text-white/30 font-medium italic -mt-4 block">
+                Latin Name
+              </p>
+
+              <div class="flex gap-2">
+                <span
+                  class="px-4 py-1.5 rounded-xl bg-white/5 border border-white/5 text-xs text-white/60"
+                  >☀️ Bright</span
+                >
+                <span
+                  class="px-4 py-1.5 rounded-xl bg-white/5 border border-white/5 text-xs text-white/60"
+                  >💧 Weekly</span
+                >
+              </div>
+
+              <p
+                class="notes text-white/40 text-sm leading-relaxed border-l-2 border-white/10 pl-4 italic"
+              >
+                "New leaf unfurling by the east window."
+              </p>
+            </div>
+
+            <div class="flex gap-4 pt-2">
+              <button
+                class="thriving-btn bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-400 font-bold rounded-2xl px-8 py-3 transition-all active:scale-95"
+              >
+                Thrive
+              </button>
+              <button
+                class="struggling-btn bg-rose-500/20 hover:bg-rose-500/30 text-rose-400 font-bold rounded-2xl px-8 py-3 transition-all active:scale-95"
+              >
+                Struggle
+              </button>
+            </div>
+          </div>
+
+          <button
+            class="btn-delete bg-white/5 mt-3 hover:bg-red-500/20 text-white/30 hover:text-red-400 p-4 rounded-2xl transition-all duration-300"
+          >
+            Delete
+          </button>
+        </div>
+        <!-- card 2 -->
+        <div
+          class="card  relative backdrop-blur-md bg-white/5 border border-white/10 p-8 rounded-[2.5rem] transition-all duration-500 hover:bg-white/10 hover:border-white/20 shadow-2xl"
+        >
+          <div class="flex flex-col md:flex-row justify-between items-start relative z-10 gap-6">
+            <div class="flex-1 space-y-6">
+              <div class="flex items-center gap-4">
+                <p
+                  class="plantName text-4xl font-black tracking-tight bg-gradient-to-r from-white to-white/40 bg-clip-text text-transparent truncate max-w-[300px]"
+                >
+                  Plant Name Two
+                </p>
+                <span
+                  class="status px-3 py-1 rounded-full bg-white/5 border border-white/10 text-[10px] font-bold uppercase tracking-[2px] text-white/40"
+                >
+                  Not applicable
+                </span>
+              </div>
+
+              <p class="latinName text-white/30 font-medium italic -mt-4 block">
+                Latin Name
+              </p>
+
+              <div class="flex gap-2">
+                <span
+                  class="px-4 py-1.5 rounded-xl bg-white/5 border border-white/5 text-xs text-white/60"
+                  >☀️ Bright</span
+                >
+                <span
+                  class="px-4 py-1.5 rounded-xl bg-white/5 border border-white/5 text-xs text-white/60"
+                  >💧 Weekly</span
+                >
+              </div>
+
+              <p
+                class="notes text-white/40 text-sm leading-relaxed border-l-2 border-white/10 pl-4 italic"
+              >
+                "New leaf unfurling by the east window."
+              </p>
+            </div>
+
+            <div class="flex gap-4 pt-2">
+              <button
+                class="thriving-btn bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-400 font-bold rounded-2xl px-8 py-3 transition-all active:scale-95"
+              >
+                Thrive
+              </button>
+              <button
+                class="struggling-btn bg-rose-500/20 hover:bg-rose-500/30 text-rose-400 font-bold rounded-2xl px-8 py-3 transition-all active:scale-95"
+              >
+                Struggle
+              </button>
+            </div>
+          </div>
+
+          <button
+            class="btn-delete mt-3 bg-white/5 hover:bg-red-500/20 text-white/30 hover:text-red-400 p-4 rounded-2xl transition-all duration-300"
+          >
+            Delete
+          </button>
+        </div>
+        <!-- card 3 -->
+        <div
+          class="card relative backdrop-blur-md bg-white/5 border border-white/10 p-8 rounded-[2.5rem] transition-all duration-500 hover:bg-white/10 hover:border-white/20 shadow-2xl"
+        >
+          <div class="flex flex-col md:flex-row justify-between items-start relative z-10 gap-6">
+            <div class="flex-1 space-y-6">
+              <div class="flex items-center gap-4">
+                <p
+                  class="plantName text-4xl font-black tracking-tight bg-gradient-to-r from-white to-white/40 bg-clip-text text-transparent truncate max-w-[300px]"
+                >
+                  Plant Name Three
+                </p>
+                <span
+                  class="status px-3 py-1 rounded-full bg-white/5 border border-white/10 text-[10px] font-bold uppercase tracking-[2px] text-white/40"
+                >
+                  Not applicable
+                </span>
+              </div>
+
+              <p class="latinName text-white/30 font-medium italic -mt-4 block">
+                Latin Name
+              </p>
+
+              <div class="flex gap-2">
+                <span
+                  class="px-4 py-1.5 rounded-xl bg-white/5 border border-white/5 text-xs text-white/60"
+                  >☀️ Bright</span
+                >
+                <span
+                  class="px-4 py-1.5 rounded-xl bg-white/5 border border-white/5 text-xs text-white/60"
+                  >💧 Weekly</span
+                >
+              </div>
+
+              <p
+                class="notes text-white/40 text-sm leading-relaxed border-l-2 border-white/10 pl-4 italic"
+              >
+                "New leaf unfurling by the east window."
+              </p>
+            </div>
+
+            <div class="flex gap-4 pt-2">
+              <button
+                class="thriving-btn bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-400 font-bold rounded-2xl px-8 py-3 transition-all active:scale-95"
+              >
+                Thrive
+              </button>
+              <button
+                class="struggling-btn bg-rose-500/20 hover:bg-rose-500/30 text-rose-400 font-bold rounded-2xl px-8 py-3 transition-all active:scale-95"
+              >
+                Struggle
+              </button>
+            </div>
+          </div>
+
+          <button
+            class="btn-delete mt-3 bg-white/5 hover:bg-red-500/20 text-white/30 hover:text-red-400 p-4 rounded-2xl transition-all duration-300"
+          >
+            Delete
+          </button>
+        </div>
+      </section>
+    </main>
+
+    <script src="./scripts.js"></script>
+  </body>
+</html>
